@@ -23,8 +23,10 @@ public class AccountManagerScript : MonoBehaviour
 
     #endregion
 
+    // This dictionary stores all login info and should be updating to server
     private Dictionary<string, string> loginInfo = new Dictionary<string, string>();
 
+    // Keep this object to load other scenes with correct account info
     private void Awake()
     {
         DontDestroyOnLoad(transform);
@@ -34,7 +36,6 @@ public class AccountManagerScript : MonoBehaviour
     void Start()
     {
         statusMessage.text = "";
-
         pnlNewAccount.SetActive(false);
         inputUsername.text = "";
         inputPassword.text = "";
@@ -42,6 +43,7 @@ public class AccountManagerScript : MonoBehaviour
 
     #region OnGUIs
 
+    // Show new account panel
     public void OnBtnNewAcccountPressed()
     {
         // Show panel and set inputs empty
@@ -50,23 +52,26 @@ public class AccountManagerScript : MonoBehaviour
         pnlNewAccount.SetActive(true);
     }
 
+    // Create new account if possible. If not show error.
     public void OnBtnCreateAccountPressed()
     {
         bool isAbleToCreateNewAccount = false;
 
-        // Check if user's new login info is valid
+        // Check if username isn't blank
         if (inputNewUsername.text.Equals(""))
         {
             statusMessageNewAccount.text = "Enter your new username!";
             isAbleToCreateNewAccount = false;
             Debug.Log("1");
         }
+        // Check if password isn't blank
         else if (inputNewPassword.text.Equals(""))
         {
             statusMessageNewAccount.text = "Enter your new password";
             isAbleToCreateNewAccount = false;
             Debug.Log("2");
         }
+        // Check if username is already taken
         else if (loginInfo.ContainsKey(inputNewUsername.text))
         {
             statusMessageNewAccount.text = "That username is already taken.";
@@ -86,33 +91,39 @@ public class AccountManagerScript : MonoBehaviour
         }
     }
 
+    // Hide new account panel
     public void OnCloseNewAccountPanel()
     {
         pnlNewAccount.SetActive(false);
     }
 
+    // If login info is valid, log in and open lobby scene
     public void OnPlayButtonPressed()
     {
         bool isAbleToPlay = false;
         string thisUsername = inputUsername.text;
         string thisPassword = inputPassword.text;
 
-
+        // Check if username is blank
         if (thisUsername.Equals("") || thisUsername.Equals(null))
         {
             statusMessage.text = "Enter your username!";
             isAbleToPlay = false;
         }
+        // Check if password is blank
         else if (thisPassword.Equals("") || thisPassword.Equals(null))
         {
             statusMessage.text = "Enter your password!";
             isAbleToPlay = false;
 
         }
+        // Check if username and its corresponding password exists
         else if (loginInfo.TryGetValue(thisUsername, out thisPassword)) // Verify account
         {
+            // Account exists
             isAbleToPlay = true;
         }
+        // Incorrect username/password
         else
         {
             statusMessage.text = "Account not found";
@@ -123,13 +134,11 @@ public class AccountManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene("LobbyScene");
         }
-
-        Debug.Log("un" + thisUsername);
-        Debug.Log("pw" + thisPassword);
     }
 
     #endregion 
 
+    // Create new account with given params
     private void CreateNewAccount(string username, string password)
     {
         loginInfo.Add(username, password);
