@@ -35,7 +35,7 @@ public class ThirdPersonPlayerController : MonoBehaviour
 
     //float turnSpeed = 0;
     float turnSmoothVelocity = 0;
-    float turnSmoothTime = .05f;
+    float turnSmoothTime = .025f;
 
     bool movementEnabled = true;
     bool running;
@@ -148,7 +148,7 @@ public class ThirdPersonPlayerController : MonoBehaviour
         inputDirection = transform.TransformDirection(inputDirection);
         inputDirection *= targetSpeed;
 
-        controller.Move(inputDirection * Time.deltaTime);
+        controller.Move((inputDirection + velocity) * Time.deltaTime);
 
     }
 
