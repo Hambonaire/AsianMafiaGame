@@ -1,0 +1,139 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class AccountManagerScript : MonoBehaviour
+{
+    #region UI objects
+
+    // Login panel objs
+    public InputField inputUsername;
+    public InputField inputPassword;
+
+    // Status texts
+    public Text statusMessage;
+    public Text statusMessageNewAccount;
+
+    // New account panel objs
+    public GameObject pnlNewAccount;
+    public InputField inputNewUsername;
+    public InputField inputNewPassword;
+
+    #endregion
+
+    private Dictionary<string, string> loginInfo = new Dictionary<string, string>();
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(transform);
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        statusMessage.text = "";
+
+        pnlNewAccount.SetActive(false);
+        inputUsername.text = "";
+        inputPassword.text = "";
+    }
+
+    #region OnGUIs
+
+    public void OnBtnNewAcccountPressed()
+    {
+        // Show panel and set inputs empty
+        inputUsername.text = "";
+        inputPassword.text = "";
+        pnlNewAccount.SetActive(true);
+    }
+
+    public void OnBtnCreateAccountPressed()
+    {
+        bool isAbleToCreateNewAccount = false;
+
+        // Check if user's new login info is valid
+        if (inputNewUsername.text.Equals(""))
+        {
+            statusMessageNewAccount.text = "Enter your new username!";
+            isAbleToCreateNewAccount = false;
+            Debug.Log("1");
+        }
+        else if (inputNewPassword.text.Equals(""))
+        {
+            statusMessageNewAccount.text = "Enter your new password";
+            isAbleToCreateNewAccount = false;
+            Debug.Log("2");
+        }
+        else if (loginInfo.ContainsKey(inputNewUsername.text))
+        {
+            statusMessageNewAccount.text = "That username is already taken.";
+            isAbleToCreateNewAccount = false;
+            Debug.Log("3");
+        }
+        else
+        {
+            isAbleToCreateNewAccount = true;
+        }
+
+        // If login info is valid add new account
+        if (isAbleToCreateNewAccount)
+        {
+            CreateNewAccount(inputNewUsername.text, inputNewPassword.text);
+            statusMessageNewAccount.text = "Account created!";
+        }
+    }
+
+    public void OnCloseNewAccountPanel()
+    {
+        pnlNewAccount.SetActive(false);
+    }
+
+    public void OnPlayButtonPressed()
+    {
+        bool isAbleToPlay = false;
+        string thisUsername = inputUsername.text;
+        string thisPassword = inputPassword.text;
+
+
+        if (thisUsername.Equals("") || thisUsername.Equals(null))
+        {
+            statusMessage.text = "Enter your username!";
+            isAbleToPlay = false;
+        }
+        else if (thisPassword.Equals("") || thisPassword.Equals(null))
+        {
+            statusMessage.text = "Enter your password!";
+            isAbleToPlay = false;
+
+        }
+        else if (loginInfo.TryGetValue(thisUsername, out thisPassword)) // Verify account
+        {
+            isAbleToPlay = true;
+        }
+        else
+        {
+            statusMessage.text = "Account not found";
+            isAbleToPlay = false;
+        }
+
+        if (isAbleToPlay) // Load lobby scene
+        {
+            SceneManager.LoadScene("LobbyScene");
+        }
+
+        Debug.Log("un" + thisUsername);
+        Debug.Log("pw" + thisPassword);
+    }
+
+    #endregion 
+
+    private void CreateNewAccount(string username, string password)
+    {
+        loginInfo.Add(username, password);
+    }
+
+
+}
