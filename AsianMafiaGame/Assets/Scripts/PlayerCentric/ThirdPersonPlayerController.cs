@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.Networking;
-
-public class ThirdPersonPlayerController : NetworkBehaviour
+public class ThirdPersonPlayerController : MonoBehaviour
 {
 
     enum MoveState
@@ -19,33 +17,33 @@ public class ThirdPersonPlayerController : NetworkBehaviour
     public float runSpeed = 8;
 
     [Range(0, 1)]
-    private float airControlPercent = 0.1f;
+    public float airControlPercent = 0.1f;
 
-    private MoveState state;
+    MoveState state;
 
-    private readonly float GRAVITY = -15;
-    private float jumpHeight = 1;
+    float gravity = -15;
+    float jumpHeight = 1;
 
-    private float baseAnimationSpeed;
+    float baseAnimationSpeed;
 
-    private Vector3 velocity = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
     //float movementSpeed = 0;
-    private float currentSpeed = 0;
-    private float targetSpeed = 0;
-    private float movementSmoothVelocity = 0;
-    private float movementSmoothTime = 0.1f;
+    float currentSpeed = 0;
+    float targetSpeed = 0;
+    float movementSmoothVelocity = 0;
+    float movementSmoothTime = 0.1f;
 
     //float turnSpeed = 0;
-    private float turnSmoothVelocity = 0;
-    private float turnSmoothTime = .025f;
+    float turnSmoothVelocity = 0;
+    float turnSmoothTime = .025f;
 
-    private bool movementEnabled = true;
-    private bool running;
+    bool movementEnabled = true;
+    bool running;
 
     public Transform cameraTransform;
     public CharacterController controller;
 
-    private Vector3 inputDirection;
+    Vector3 inputDirection;
 
     void Start()
     {
@@ -58,12 +56,6 @@ public class ThirdPersonPlayerController : NetworkBehaviour
 
     void Update()
     {
-        // Only local player proccesses input
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
         // Get input direction
         inputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
@@ -120,7 +112,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 // Jump
-                velocity.y = Mathf.Sqrt(-2 * GRAVITY * jumpHeight);
+                velocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
                 state = MoveState.Airborne;
 
             }
@@ -143,7 +135,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
             else
             {
                 // Apply gravity
-                velocity.y += GRAVITY * Time.deltaTime;
+                velocity.y += gravity * Time.deltaTime;
                 
             }
         }

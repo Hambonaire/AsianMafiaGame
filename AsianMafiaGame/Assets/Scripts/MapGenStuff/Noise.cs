@@ -12,16 +12,15 @@ public static class Noise
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
-        // To avoid divide by 0 error
         if (scale <= 0)
         {
             scale = 0.0001f;
         }
-        // Loop through the noise map
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
+
                 float sampleX = x / scale;
                 float sampleY = y / scale;
 

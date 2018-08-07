@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using UnityEngine.Networking;
-
 public class AccountManagerScript : MonoBehaviour
 {
     #region UI variables
