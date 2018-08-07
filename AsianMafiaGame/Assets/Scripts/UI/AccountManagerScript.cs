@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AccountManagerScript : MonoBehaviour
 {
-    #region UI objects
+    #region UI variables
 
     // Login panel objs
     public InputField inputUsername;
@@ -35,10 +35,27 @@ public class AccountManagerScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Default inputs
         statusMessage.text = "";
         pnlNewAccount.SetActive(false);
         inputUsername.text = "";
         inputPassword.text = "";
+    }
+
+    private void Update()
+    {
+        // Enable tabbing to move focus from username to password
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (inputUsername.isFocused)
+            {
+                inputPassword.Select();
+            }
+            if (inputNewUsername.isFocused)
+            {
+                inputNewPassword.Select();
+            }
+        }
     }
 
     #region OnGUIs
@@ -130,7 +147,8 @@ public class AccountManagerScript : MonoBehaviour
             isAbleToPlay = false;
         }
 
-        if (isAbleToPlay) // Load lobby scene
+        // Load lobby scene
+        if (isAbleToPlay) 
         {
             SceneManager.LoadScene("LobbyScene");
         }

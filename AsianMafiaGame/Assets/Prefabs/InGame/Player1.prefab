@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4442956617285834}
   - component: {fileID: 143959034618062066}
   - component: {fileID: 114396414423920556}
+  - component: {fileID: 114829190743155108}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -312,6 +313,38 @@ MonoBehaviour:
   CamOcclusion:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &114829190743155108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1834947334870808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 62
+    i1: 189
+    i2: 89
+    i3: 226
+    i4: 134
+    i5: 205
+    i6: 143
+    i7: 196
+    i8: 24
+    i9: 182
+    i10: 198
+    i11: 156
+    i12: 212
+    i13: 102
+    i14: 19
+    i15: 98
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!136 &136746362553019140
 CapsuleCollider:
   m_ObjectHideFlags: 1
