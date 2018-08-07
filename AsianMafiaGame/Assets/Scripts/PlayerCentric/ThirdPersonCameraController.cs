@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonCameraController : MonoBehaviour
+using UnityEngine.Networking;
+
+public class ThirdPersonCameraController : NetworkBehaviour
 {
 
     public Transform target;
@@ -52,6 +54,10 @@ public class ThirdPersonCameraController : MonoBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         camZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
         camZoom = Mathf.Clamp(camZoom, zoomMinMax.x, zoomMinMax.y);
     }
