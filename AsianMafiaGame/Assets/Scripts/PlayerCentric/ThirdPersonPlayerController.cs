@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonPlayerController : MonoBehaviour
+using UnityEngine.Networking;
+
+public class ThirdPersonPlayerController : NetworkBehaviour
 {
 
     enum MoveState
@@ -17,33 +19,33 @@ public class ThirdPersonPlayerController : MonoBehaviour
     public float runSpeed = 8;
 
     [Range(0, 1)]
-    public float airControlPercent = 0.1f;
+    private float airControlPercent = 0.1f;
 
-    MoveState state;
+    private MoveState state;
 
-    float gravity = -15;
-    float jumpHeight = 1;
+    private readonly float GRAVITY = -15;
+    private float jumpHeight = 1;
 
-    float baseAnimationSpeed;
+    private float baseAnimationSpeed;
 
-    Vector3 velocity = Vector3.zero;
+    private Vector3 velocity = Vector3.zero;
     //float movementSpeed = 0;
-    float currentSpeed = 0;
-    float targetSpeed = 0;
-    float movementSmoothVelocity = 0;
-    float movementSmoothTime = 0.1f;
+    private float currentSpeed = 0;
+    private float targetSpeed = 0;
+    private float movementSmoothVelocity = 0;
+    private float movementSmoothTime = 0.1f;
 
     //float turnSpeed = 0;
-    float turnSmoothVelocity = 0;
-    float turnSmoothTime = .025f;
+    private float turnSmoothVelocity = 0;
+    private float turnSmoothTime = .025f;
 
-    bool movementEnabled = true;
-    bool running;
+    private bool movementEnabled = true;
+    private bool running;
 
     public Transform cameraTransform;
     public CharacterController controller;
 
-    Vector3 inputDirection;
+    private Vector3 inputDirection;
 
     void Start()
     {
@@ -56,6 +58,12 @@ public class ThirdPersonPlayerController : MonoBehaviour
 
     void Update()
     {
+        // Only local player proccesses input
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         // Get input direction
         inputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
@@ -112,7 +120,7 @@ public class ThirdPersonPlayerController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 // Jump
-                velocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
+                velocity.y = Mathf.Sqrt(-2 * GRAVITY * jumpHeight);
                 state = MoveState.Airborne;
 
             }
@@ -135,7 +143,7 @@ public class ThirdPersonPlayerController : MonoBehaviour
             else
             {
                 // Apply gravity
-                velocity.y += gravity * Time.deltaTime;
+                velocity.y += GRAVITY * Time.deltaTime;
                 
             }
         }
