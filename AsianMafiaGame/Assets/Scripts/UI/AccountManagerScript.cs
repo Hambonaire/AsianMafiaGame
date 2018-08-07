@@ -69,7 +69,7 @@ public class AccountManagerScript : MonoBehaviour
         pnlNewAccount.SetActive(true);
     }
 
-    // Create new account if possible. If not show error.
+    // Attempt to create new account
     public void OnBtnCreateAccountPressed()
     {
         bool isAbleToCreateNewAccount = false;
@@ -79,21 +79,18 @@ public class AccountManagerScript : MonoBehaviour
         {
             statusMessageNewAccount.text = "Enter your new username!";
             isAbleToCreateNewAccount = false;
-            Debug.Log("1");
         }
         // Check if password isn't blank
         else if (inputNewPassword.text.Equals(""))
         {
             statusMessageNewAccount.text = "Enter your new password";
             isAbleToCreateNewAccount = false;
-            Debug.Log("2");
         }
         // Check if username is already taken
         else if (loginInfo.ContainsKey(inputNewUsername.text))
         {
             statusMessageNewAccount.text = "That username is already taken.";
             isAbleToCreateNewAccount = false;
-            Debug.Log("3");
         }
         else
         {
@@ -106,6 +103,8 @@ public class AccountManagerScript : MonoBehaviour
             CreateNewAccount(inputNewUsername.text, inputNewPassword.text);
             statusMessageNewAccount.text = "Account created!";
         }
+
+        Debug.Log(statusMessageNewAccount.text);
     }
 
     // Hide new account panel
@@ -150,8 +149,11 @@ public class AccountManagerScript : MonoBehaviour
         // Load lobby scene
         if (isAbleToPlay) 
         {
+            statusMessage.text = "Loading...";
             SceneManager.LoadScene("LobbyScene");
         }
+
+        Debug.Log(statusMessage.text);
     }
 
     #endregion 
