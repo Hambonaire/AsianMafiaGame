@@ -25,12 +25,14 @@ public static class Noise
             scale = 0.0001f;
         }
 
+        // Set max to minimum and min to maximum in the beginning
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
         float halfwidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
 
+        // Iterate  the map and set sample values
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)

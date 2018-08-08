@@ -8,7 +8,7 @@ public static class TextureGenerator {
     {
         Texture2D texture = new Texture2D(width, height);
         texture.filterMode = FilterMode.Point;
-        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.wrapMode = TextureWrapMode.Clamp; // Map outside of our range doesn't show up in the map
         texture.SetPixels(colorMap);
         texture.Apply();
         return texture;
@@ -25,7 +25,6 @@ public static class TextureGenerator {
             for (int x = 0; x < width; x++)
             {
                 colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
-
             }
         }
 
