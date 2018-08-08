@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -122,11 +122,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4505026350114006, guid: ecddec095eaf2f94fad1ab31b4d2de18, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 673.7
       objectReference: {fileID: 0}
     - target: {fileID: 4505026350114006, guid: ecddec095eaf2f94fad1ab31b4d2de18, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: -21.5
       objectReference: {fileID: 0}
     - target: {fileID: 4505026350114006, guid: ecddec095eaf2f94fad1ab31b4d2de18, type: 2}
       propertyPath: m_LocalPosition.z
@@ -237,15 +237,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 954b73d5c81f5534a82cf43fdff6df16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawMode: 1
   mapWidth: 100
   mapHeight: 100
-  noiseScale: 15.28
+  noiseScale: 25
+  octaves: 1
+  persistance: 0
+  lacunarity: 1
+  seed: 78
+  offset: {x: 5.82, y: -21.52}
   autoUpdate: 1
-  octaves: 2
-  persistance: 1
-  lacunarity: 1.94
-  seed: 21
-  offset: {x: 0, y: 0}
+  regions:
+  - name: Water
+    height: 0.4
+    color: {r: 0.07440368, g: 0.26806703, b: 0.8301887, a: 0}
+  - name: Sand
+    height: 0.5
+    color: {r: 0.9189477, g: 0.9339623, b: 0.72156864, a: 0}
+  - name: Land
+    height: 0.8
+    color: {r: 0.5448003, g: 0.9433962, b: 0.28924885, a: 0}
+  - name: Rocks
+    height: 0.95
+    color: {r: 0.6698113, g: 0.2806272, b: 0.16113384, a: 0.78431374}
+  - name: Snow
+    height: 1
+    color: {r: 1, g: 1, b: 1, a: 0.78431374}
 --- !u!4 &1364151798
 Transform:
   m_ObjectHideFlags: 0
@@ -253,7 +270,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1364151795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 582, y: 15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2020201751}
@@ -396,11 +413,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4518670333137794, guid: 0b3404136ddbf454583a18e785a62f1a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -24.7
+      value: 642
       objectReference: {fileID: 0}
     - target: {fileID: 4518670333137794, guid: 0b3404136ddbf454583a18e785a62f1a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: -21
       objectReference: {fileID: 0}
     - target: {fileID: 4518670333137794, guid: 0b3404136ddbf454583a18e785a62f1a, type: 2}
       propertyPath: m_LocalPosition.z
@@ -438,11 +455,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4237251916319516, guid: a4b8b9a3811b14a4dbd8e33109c05ac8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 666.7
       objectReference: {fileID: 0}
     - target: {fileID: 4237251916319516, guid: a4b8b9a3811b14a4dbd8e33109c05ac8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 556
       objectReference: {fileID: 0}
     - target: {fileID: 4237251916319516, guid: a4b8b9a3811b14a4dbd8e33109c05ac8, type: 2}
       propertyPath: m_LocalPosition.z
@@ -552,7 +569,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2020201747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 1364151798}
