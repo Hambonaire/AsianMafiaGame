@@ -32,7 +32,7 @@ public class MapGenerator : MonoBehaviour {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
         Color[] colorMap = new Color[mapWidth * mapHeight];
 
-        // Loop throught the map to color map
+        // Loop through the map to color map
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
@@ -98,5 +98,4 @@ public struct TerrainType
     public float height;
     public Color color;
 }
-
 
