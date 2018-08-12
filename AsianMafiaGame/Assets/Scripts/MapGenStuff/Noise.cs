@@ -1,38 +1,36 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-// Set class static since this is not going to be instantiated more than once
-public static class Noise
-{
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
+public static class Noise {
+
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight,int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
-        // Psuedo random number generator. Store the map gen in this seed
         System.Random prng = new System.Random(seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
         for (int i = 0; i < octaves; i++)
         {
-            // If number is too high, returns same map
             float offsetX = prng.Next(-100000, 100000) + offset.x;
             float offsetY = prng.Next(-100000, 100000) + offset.y;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
-        // Set minimum scale val to a small positive number to avoid division by 0 error
+        // Avoid division by 0 error
         if (scale <= 0)
         {
-            scale = 0.0001f;
+            scale = 0.00001f;
         }
 
-        // Set max to minimum and min to maximum in the beginning
+        // Max and mins for normalizing noiseMap values
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
-        float halfwidth = mapWidth / 2f;
+        float halfWidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
 
-        // Iterate  the map and set sample values
+        // Iterate through the noise map and generate noise map
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
@@ -41,22 +39,20 @@ public static class Noise
                 float frequency = 1;
                 float noiseHeight = 0;
 
+                // Loop through the octaves
                 for (int i = 0; i < octaves; i++)
                 {
-                    float sampleX = (x - halfwidth) / scale * frequency + octaveOffsets[i].x; // higher frequency means further apart sample points
-                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y; // height values will changes more rapidly
+                    float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[i].x; // Higher the frequency further away the sample points will be
+                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y;
 
-                    // Mathf.PerlinNoise gives us value between 0 and 1
-                    // Multiply by 2 and subtract 1 so that it returns values in between -1 and 1
-                    // If perline values could be negative then our noiseHeight could decrease
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                    // PerlinValue is now in the range of -1 and 1
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 -1;
                     noiseHeight += perlinValue * amplitude;
 
-                    amplitude *= persistance; // Amplitude decreases for each octave since persistance is > 1
-                    frequency *= lacunarity; // Frequency increases each octave since lacunarity is < 1
+                    amplitude *= persistance; // Decreases every octave since persistance is between 0 and 1
+                    frequency *= lacunarity; // Increases every octave since lacunarity is greater than 1
                 }
 
-                // Update max/min noise height
                 if (noiseHeight > maxNoiseHeight)
                 {
                     maxNoiseHeight = noiseHeight;
@@ -68,21 +64,17 @@ public static class Noise
                 noiseMap[x, y] = noiseHeight;
             }
         }
-
-        // Before returning noiseMap we need to normalize values to 0 and 1
-        // to do this need to keep track of lowest and highest values in noiseMap
+        // Iterate through the map and normalize
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                //Mathf.InverseLerp returns a value between 0 and 1
-                //so if noiseMap value is equal to min noise height, it will return 0. if it was equal to max
-                //noise height, it would return 1, if it was halfway, it would return .5.
+                // Minimum height is 0, maximum height is 1
                 noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
             }
         }
+
         return noiseMap;
     }
-}
 
-        
+}

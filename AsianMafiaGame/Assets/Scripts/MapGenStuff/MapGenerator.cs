@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator : MonoBehaviour
-{
-    public enum DrawMode { NoiseMap, ColorMap, Mesh};
+public class MapGenerator : MonoBehaviour {
+
+    public enum DrawMode { NoiseMap, ColorMap, DrawMesh};
     public DrawMode drawMode;
 
     public int mapWidth;
@@ -11,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     public float noiseScale;
 
     public int octaves;
-    [Range(0, 1)]
+    [Range(0,1)]
     public float persistance;
     public float lacunarity;
 
@@ -19,6 +20,7 @@ public class MapGenerator : MonoBehaviour
     public Vector2 offset;
 
     public float meshHeightMultiplier;
+    public AnimationCurve meshHeightCurve;
 
     public bool autoUpdate;
 
@@ -26,18 +28,21 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
+        // Pass in the noise and color map
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
-
-        //Loop through the noiseMap and color them according to their region (height)
         Color[] colorMap = new Color[mapWidth * mapHeight];
+
+        // Loop throught the map to color map
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
                 float currentHeight = noiseMap[x, y];
+                // Loop through the regions to see which region this current height falls in
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight <= regions [i].height)
+                    // Region is found so color then break
+                    if (currentHeight <= regions[i].height)
                     {
                         colorMap[y * mapWidth + x] = regions[i].color;
                         break;
@@ -46,8 +51,9 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // Draw map according to DrawMode
         MapDisplay display = FindObjectOfType<MapDisplay>();
+
+        // Draw according to the DrawMode
         if (drawMode == DrawMode.NoiseMap)
         {
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
@@ -56,16 +62,16 @@ public class MapGenerator : MonoBehaviour
         {
             display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
-        else if (drawMode == DrawMode.Mesh)
+        else if (drawMode == DrawMode.DrawMesh)
         {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier) , TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
     }
 
-    // Called when a script variable is changed in inspector 
+    // Called automatically when a script variable is changed in inspector
     private void OnValidate()
     {
-        // Clamping values
+        // These variables are limited in the inspector
         if (mapWidth < 1)
         {
             mapWidth = 1;
@@ -83,13 +89,12 @@ public class MapGenerator : MonoBehaviour
             octaves = 0;
         }
     }
+}
 
-    [System.Serializable]
-    public struct TerrainType
-    {
-        public string name;
-        public float height;
-        public Color color;
-    }
-
+[System.Serializable]
+public struct TerrainType
+{
+    public string name;
+    public float height;
+    public Color color;
 }
