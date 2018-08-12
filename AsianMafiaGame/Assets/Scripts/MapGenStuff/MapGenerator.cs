@@ -19,6 +19,7 @@ public class MapGenerator : MonoBehaviour
     public Vector2 offset;
 
     public float meshHeightMultiplier;
+    public AnimationCurve meshHeightCurve;
 
     public bool autoUpdate;
 
@@ -37,7 +38,7 @@ public class MapGenerator : MonoBehaviour
                 float currentHeight = noiseMap[x, y];
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight <= regions [i].height)
+                    if (currentHeight <= regions[i].height)
                     {
                         colorMap[y * mapWidth + x] = regions[i].color;
                         break;
@@ -84,7 +85,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    [System.Serializable]
+    [System.Serializable] //this makes it so it shows in inspector
     public struct TerrainType
     {
         public string name;
