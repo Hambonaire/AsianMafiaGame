@@ -73,7 +73,7 @@ public class MeshData
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
-        mesh.RecalculateNormals();
+        mesh.RecalculateNormals();//for lighting purposes
         return mesh;
     }
 }
