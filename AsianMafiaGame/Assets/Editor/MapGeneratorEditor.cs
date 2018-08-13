@@ -14,12 +14,12 @@ public class MapGeneratorEditor : Editor {
         // If any value was changed in the editor and autoUpdate is true then generate map
         if (DrawDefaultInspector() && mapGen.autoUpdate)
         {
-             mapGen.GenerateMap();
+            mapGen.DrawMapInEditor();
         }
         // Generate map when Generate button is pressed
         if (GUILayout.Button("Generate"))
         {
-            mapGen.GenerateMap();
+            mapGen.DrawMapInEditor();
         }
     }
 }
