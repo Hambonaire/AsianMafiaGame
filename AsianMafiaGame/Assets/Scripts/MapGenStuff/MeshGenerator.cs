@@ -9,7 +9,7 @@ public static class MeshGenerator {
         int width = heightMap.GetLength(0);
         int height = heightMap.GetLength(1);
         // X and Z value of the point where we first create the triangles
-        float topLeftX = (width - 1) / -2f;
+        float topLeftX = (width - 1) / 2f;
         float topLeftZ = (height - 1) / 2f;
 
         MeshData meshData = new MeshData(width, height);
@@ -20,7 +20,7 @@ public static class MeshGenerator {
         {
             for (int x = 0; x < width; x++)
             {
-                meshData.vertices[vertexIndex] = new Vector3(topLeftX + x, heightCurve.Evaluate(heightMap[x, y]) * heightMultiplier, topLeftZ - y);
+                meshData.vertices[vertexIndex] = new Vector3(topLeftX - x, heightCurve.Evaluate(heightMap[x, y]) * heightMultiplier, topLeftZ - y);
                 meshData.uvs[vertexIndex] = new Vector2(x / (float)width, y / (float)height);
 
                 // Add the triangles only if the starting point is not on the right or bottom edge (because there's none to be made at those areas)
@@ -60,9 +60,9 @@ public class MeshData
     // Create a triangle with its 3 points
     public void AddTriangle(int a, int b, int c)
     {
-        triangles[triangleIndex] = a;
+        triangles[triangleIndex] = c;
         triangles[triangleIndex + 1] = b;
-        triangles[triangleIndex + 2] = c;
+        triangles[triangleIndex + 2] = a;
         triangleIndex += 3;
     }
 
