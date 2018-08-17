@@ -43,7 +43,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
     private bool running;
 
     public Transform cameraTransform;
-    public CharacterController controller;
+    public CharacterController characterController;
 
     private Vector3 inputDirection;
 
@@ -53,6 +53,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
         //controller = GetComponent<CharacterController>();
 
         state = MoveState.Idle;
+        characterController = GetComponent<CharacterController>();
 
     }
 
@@ -111,7 +112,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
         else if (state == MoveState.Moving)
         {
 
-            if (!controller.isGrounded)
+            if (!characterController.isGrounded)
             {
                 // Player is falling
                 state = MoveState.Airborne;
@@ -134,7 +135,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
         else if (state == MoveState.Airborne)
         {
             
-            if (controller.isGrounded)
+            if (characterController.isGrounded)
             {
                 // Player has landed
                 state = MoveState.Landing;
@@ -156,7 +157,7 @@ public class ThirdPersonPlayerController : NetworkBehaviour
         inputDirection = transform.TransformDirection(inputDirection);
         inputDirection *= targetSpeed;
 
-        controller.Move((inputDirection + velocity) * Time.deltaTime);
+        characterController.Move((inputDirection + velocity) * Time.deltaTime);
 
     }
 

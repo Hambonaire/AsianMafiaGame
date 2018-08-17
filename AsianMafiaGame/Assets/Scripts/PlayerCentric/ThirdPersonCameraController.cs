@@ -42,6 +42,7 @@ public class ThirdPersonCameraController : NetworkBehaviour
     void Start()
     {
         //target = GameObject.FindGameObjectWithTag("Player").transform;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         camZoom = zoomMinMax.y;

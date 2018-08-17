@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterControllerrrr : MonoBehaviour {
+public class PlayerCharacterController : MonoBehaviour {
 
     // Use this for initialization
     public Rigidbody rb;
